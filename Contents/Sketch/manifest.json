@@ -1,0 +1,24 @@
+{
+  "name" : "FocusArtboard",
+  "identifier" : "jp.tokuda109.sketch.focus-artboard",
+  "version" : "1.0.0",
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "description" : "Focus artboard helper.",
+  "authorEmail" : "tokuda109@gmail.com",
+  "author" : "Tsuyoshi Tokuda",
+  "commands" : [
+    {
+      "identifier" : "focusartboard-focus",
+      "shortcut" : "ctrl shift a",
+      "script" : "focus.cocoascript",
+      "handler" : "onRun"
+    }
+  ],
+  "menu" : {
+    "title" : "FocusArtboard",
+    "items" : [
+      "focusartboard-focus"
+    ]
+  }
+}

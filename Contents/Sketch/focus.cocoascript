@@ -1,0 +1,61 @@
+/**
+ * This is a plugin for Sketch App.
+ */
+
+var ctx;
+
+var onRun = function(context) {
+  ctx = context;
+
+  var doc = ctx.document,
+      pages = doc.pages(),
+      artboardData = [],
+      i,
+      j;
+
+  for (i = 0; i < pages.count(); i++) {
+    var page = pages[i],
+        artboards = page.artboards();
+
+    for (j = 0; j < artboards.count(); j++) {
+      var artboard = artboards[j];
+
+      artboardData.push({
+        name: artboard.name(),
+        artboard: artboard
+      });
+    }
+  }
+
+  showMessages(artboardData);
+};
+
+function showMessages(data) {
+
+  var items = [],
+      i;
+  for (i = 0; i < data.length; i++) {
+    items.push(data[i].name);
+  }
+
+  var accessory = [[NSComboBox alloc] initWithFrame:NSMakeRect(0,0,200,25)];
+  [accessory addItemsWithObjectValues:items];
+  [accessory selectItemAtIndex:0];
+
+  var alert = [[NSAlert alloc] init];
+  [alert setAccessoryView:accessory];
+  [alert addButtonWithTitle:"Close"];
+
+  var responseCode = [alert runModal],
+      selectedItem = accessory.indexOfSelectedItem();
+
+  if (responseCode === 1000) {
+    var artboardData = data[selectedItem],
+        artboard = artboardData.artboard,
+        doc = ctx.document;
+
+    var view = doc.currentView();
+
+    [view centerRect:artboard.rect()];
+  }
+}

@@ -1,9 +1,9 @@
 {
   "name" : "FocusArtboard",
   "identifier" : "jp.tokuda109.sketch.focus-artboard",
-  "version" : "1.0.0",
+  "version" : "1.0.1",
   "compatibleVersion": 3,
-  "bundleVersion": 1,
+  "bundleVersion": 2,
   "description" : "Focus artboard helper.",
   "authorEmail" : "tokuda109@gmail.com",
   "author" : "Tsuyoshi Tokuda",

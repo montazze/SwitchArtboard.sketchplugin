@@ -27,10 +27,10 @@ var onRun = function(context) {
     }
   }
 
-  showMessages(artboardData);
+  showSelectDialog(artboardData);
 };
 
-function showMessages(data) {
+function showSelectDialog(data) {
 
   var items = [],
       i;
@@ -38,15 +38,15 @@ function showMessages(data) {
     items.push(data[i].name);
   }
 
-  var accessory = [[NSComboBox alloc] initWithFrame:NSMakeRect(0,0,200,25)];
-  [accessory addItemsWithObjectValues:items];
-  [accessory selectItemAtIndex:0];
+  var accessory = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
+  accessory.addItemsWithObjectValues(items);
+  accessory.selectItemAtIndex(0);
 
-  var alert = [[NSAlert alloc] init];
-  [alert setAccessoryView:accessory];
-  [alert addButtonWithTitle:"Close"];
+  var alert = NSAlert.alloc().init();
+  alert.setAccessoryView(accessory);
+  alert.addButtonWithTitle("Select");
 
-  var responseCode = [alert runModal],
+  var responseCode = alert.runModal(),
       selectedItem = accessory.indexOfSelectedItem();
 
   if (responseCode === 1000) {
@@ -56,6 +56,6 @@ function showMessages(data) {
 
     var view = doc.currentView();
 
-    [view centerRect:artboard.rect()];
+    view.centerRect(artboard.rect());
   }
 }

@@ -2,14 +2,16 @@
  * This is a plugin for Sketch App.
  */
 
-var ctx;
+var ctx,
+    doc,
+    pages;
 
 var onRun = function(context) {
   ctx = context;
+  doc = ctx.document;
+  pages = doc.pages();
 
-  var doc = ctx.document,
-      pages = doc.pages(),
-      artboardData = [],
+  var data = [],
       i,
       j;
 
@@ -20,22 +22,22 @@ var onRun = function(context) {
     for (j = 0; j < artboards.count(); j++) {
       var artboard = artboards[j];
 
-      artboardData.push({
-        name: artboard.name(),
+      data.push({
+        page: page,
         artboard: artboard
       });
     }
   }
 
-  showSelectDialog(artboardData);
+  showSwitchDialog(data);
 };
 
-function showSelectDialog(data) {
+function showSwitchDialog(data) {
 
   var items = [],
       i;
   for (i = 0; i < data.length; i++) {
-    items.push(data[i].name);
+    items.push(data[i].artboard.name());
   }
 
   var accessory = NSComboBox.alloc().initWithFrame(NSMakeRect(0,0,200,25));
@@ -43,16 +45,20 @@ function showSelectDialog(data) {
   accessory.selectItemAtIndex(0);
 
   var alert = NSAlert.alloc().init();
+  alert.setMessageText("Choose the artboard:")
   alert.setAccessoryView(accessory);
-  alert.addButtonWithTitle("Select");
+  alert.addButtonWithTitle("Choose");
 
   var responseCode = alert.runModal(),
       selectedItem = accessory.indexOfSelectedItem();
 
   if (responseCode === 1000) {
     var artboardData = data[selectedItem],
-        artboard = artboardData.artboard,
-        doc = ctx.document;
+        artboard = artboardData.artboard;
+
+    if (artboardData.page !== doc.currentPage()) {
+      doc.setCurrentPage(artboardData.page);
+    }
 
     var view = doc.currentView();
 
